@@ -4,6 +4,7 @@
  */
 package br.eti.vinicius.airports.controllers;
 
+import br.eti.vinicius.airports.DTO.AirportMinDTO;
 import br.eti.vinicius.airports.entities.Airport;
 import br.eti.vinicius.airports.service.AirportService;
 import java.util.List;
@@ -42,6 +43,16 @@ public class AirportController {
     @GetMapping("/city/{cityName}")
     public ResponseEntity<List<Airport>> findByCityIgnoreCase(@PathVariable String cityName) {
         List<Airport> result = airportService.findByCity(cityName);
+        
+        if (result.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(result);
+        }
+    }
+    @GetMapping("/country/{countryName}")
+     public ResponseEntity<List<AirportMinDTO>> findByCountryIgnoreCase(@PathVariable String countryName) {
+        List<AirportMinDTO> result = airportService.findByCountry(countryName);
         
         if (result.isEmpty()) {
             return ResponseEntity.notFound().build();
